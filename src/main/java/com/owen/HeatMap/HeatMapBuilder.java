@@ -29,9 +29,16 @@ public class HeatMapBuilder implements IRichBolt
 		this.collector = collector;
 	}
 
+	// execute() is thread safe because storm calls this method one tuple a time no
+	// matter it's a tick tuple or it's a normal tuple
 	@Override
 	public void execute(Tuple input)
 	{
+		// tick tuple is used to trigger an action periodically, such as aggregating a batch
+		// of data or flushing some writes to database. tick tuples can be configured to be
+		// received at a user-defined frequency. we need to inspect the tuples to determine
+		// whether it's a tick tuple emitted by system or it's a normal tuple emitted by
+		// spout/bolt
 		if(isTickTuple(input))
 		{
 			Long now = System.currentTimeMillis();
@@ -87,6 +94,7 @@ public class HeatMapBuilder implements IRichBolt
 		declarer.declare(new Fields("time-interval", "hotzones"));
 	}
 
+	// override
 	@Override
 	public Map<String, Object> getComponentConfiguration()
 	{

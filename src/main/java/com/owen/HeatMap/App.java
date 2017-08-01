@@ -5,8 +5,11 @@ import org.apache.storm.LocalCluster;
 import org.apache.storm.utils.Utils;
 
 /**
- * Hello world!
- *
+ * This is a demo projects showing how to create a storm project with parallelism
+ * hint to storm. Main points here are:
+ *   1 we can hint number of executor threads when building the topology
+ *   2 we can override the number of tasks each thread should maintain
+ *   3 use tick tuple to trigger some action periodically
  */
 public class App 
 {

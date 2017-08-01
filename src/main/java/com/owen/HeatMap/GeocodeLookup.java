@@ -27,7 +27,7 @@ public class GeocodeLookup implements IRichBolt
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector)
 	{
-		System.out.println("geocode lookup: " + Thread.currentThread().getName());
+		// initialize geocoder object
 		this.coder = new Geocoder();
 		this.collector = collector;
 	}
@@ -43,6 +43,7 @@ public class GeocodeLookup implements IRichBolt
 				.getGeocoderRequest();
 		try
 		{
+			// call coder API to get the coordinate
 			GeocodeResponse response = coder.geocode(request);
 			GeocoderStatus status = response.getStatus();
 			if(GeocoderStatus.OK.equals(status))
@@ -72,5 +73,4 @@ public class GeocodeLookup implements IRichBolt
 	{
 		return null;
 	}
-
 }
